@@ -41,12 +41,23 @@ jobs:
       - name: Install JavaScript dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Create environment file
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          if [ -n "${ENV_FILE:-}" ]; then
+            printf '%s\n' "$ENV_FILE" > .env
+          else
+            cp config/env.example .env
+          fi
+          test -f .env
+
       - name: Generate Android native project locally
-        run: pnpm exec expo prebuild --platform android --non-interactive --clean
+        run: npx expo prebuild --clean --non-interactive
 
       - name: Build debug APK with Gradle
         working-directory: android
-        run: ./gradlew app:assembleDebug --no-daemon --stacktrace
+        run: ./gradlew app:assembleDebug
 
       - name: Collect debug APK
         run: |
