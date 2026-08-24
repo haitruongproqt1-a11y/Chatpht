@@ -53,9 +53,9 @@ const config: ExpoConfig = {
   scheme: env.scheme,
   extra: p2pExtra,
   userInterfaceStyle: "automatic",
-  // react-native-webrtc và react-native-incall-manager hiện chưa được Expo Doctor
-  // xác nhận tương thích New Architecture; dùng bridge ổn định của SDK 54 cho APK native.
-  newArchEnabled: false,
+  // Reanimated 4 trong Expo SDK 54 yêu cầu New Architecture ở Android.
+  // Các hardening splash/SecureStore bên dưới vẫn giữ nguyên để tránh treo khởi động.
+  newArchEnabled: true,
   ios: {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,
