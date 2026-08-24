@@ -1,0 +1,90 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1763372440610,
+      "tag": "0000_elite_eternals",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787394972670,
+      "tag": "0001_clear_jocasta",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787398088536,
+      "tag": "0002_giant_raider",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787398817786,
+      "tag": "0003_futuristic_bloodstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787399711790,
+      "tag": "0004_milky_bloodstorm",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787400833985,
+      "tag": "0005_aromatic_katie_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1787401352848,
+      "tag": "0006_mighty_young_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1787412110489,
+      "tag": "0007_natural_black_crow",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1787412325845,
+      "tag": "0008_orange_captain_britain",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1787441595952,
+      "tag": "0009_luxuriant_thanos",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1787484059181,
+      "tag": "0010_perpetual_fixer",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1787492580858,
+      "tag": "0011_foamy_randall",
+      "breakpoints": true
+    }
+  ]
+}

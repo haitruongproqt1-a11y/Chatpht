@@ -1,0 +1,1 @@
+ALTER TABLE `messages` MODIFY COLUMN `kind` enum('text','image','video','file','sticker','system') NOT NULL DEFAULT 'text';

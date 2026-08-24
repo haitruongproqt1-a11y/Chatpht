@@ -1,0 +1,135 @@
+# Project TODO
+
+- [x] Tạo nhận diện thương hiệu và cấu hình tên chatpht.
+- [x] Hoàn thiện điều hướng mobile, màn hình đăng nhập và các tab chính.
+- [x] Thiết kế lược đồ dữ liệu người dùng, phòng, thành viên, tin nhắn, tệp và phiên gọi.
+- [x] Xây dựng API có xác thực cho phòng, thành viên, tin nhắn, trạng thái đã xem và thống kê.
+- [x] Bổ sung lớp giao tiếp realtime có khả năng nâng cấp Socket.IO trong môi trường triển khai phù hợp.
+- [x] Xây dựng hộp thư, màn hình hội thoại và composer gửi text.
+- [x] Thêm chọn ảnh/video/tệp, tải tệp qua Cloudinary khi đã cấu hình bí mật và hiển thị preview.
+- [x] Tích hợp cấp token LiveKit phía máy chủ, kiểm tra tư cách thành viên và điều phối phiên gọi.
+- [x] Xây dựng giao diện cuộc gọi 1:1 và nhóm tối đa tám người, bao gồm điều khiển mic, camera và chia sẻ màn hình khi nền tảng hỗ trợ.
+- [x] Xây dựng trang quản trị, thống kê phòng, người dùng, cuộc gọi và dung lượng tệp.
+- [x] Thêm GET /health trả về chính xác `{ status: "ok" }`.
+- [x] Thêm cấu hình Dockerfile và render.yaml tham chiếu cho triển khai một dịch vụ Node.
+- [ ] Cấu hình health-check bên ngoài mỗi 5 phút sau khi người dùng xuất bản và có URL công khai.
+- [x] Viết kiểm thử đơn vị cho quyền phòng, tạo tin nhắn, phiên gọi, token và endpoint sức khỏe.
+- [x] Kiểm tra kiểu dữ liệu, kiểm thử tự động và xác nhận các luồng chạy được trong môi trường hiện có.
+- [ ] Xác minh thủ công trên hai hoặc nhiều native development build: text, upload media, gọi 1:1 và lưới gọi tám người cùng camera/micro thật.
+- [x] Tạo checkpoint bàn giao và hướng dẫn xuất bản qua giao diện.
+- [x] Nén bốn icon thương hiệu xuống dưới 1 MB để checkpoint có thể lưu.
+- [x] Tạo tài khoản quản trị cục bộ và đăng nhập bằng mật khẩu băm an toàn.
+- [x] Thay OAuth bằng đăng ký và đăng nhập bằng tên tài khoản, mật khẩu.
+- [x] Bổ sung tìm kiếm người dùng theo tên tài khoản hoặc mã ID.
+- [x] Bổ sung kết bạn và tạo chat 1:1 từ kết quả tìm kiếm.
+- [x] Thêm đổi mật khẩu bằng xác minh mật khẩu hiện tại.
+- [x] Thêm tải ảnh đại diện và cập nhật hồ sơ người dùng.
+- [x] Chuyển kết bạn sang lời mời chờ xác nhận, chấp nhận hoặc từ chối.
+- [x] Theo dõi và hiển thị trạng thái online/offline cho bạn bè.
+- [x] Sửa lỗi gửi chat thất bại và tạo trùng tin nhắn.
+- [x] Sửa lỗi gửi ảnh, video và file trong hội thoại.
+- [x] Sửa lỗi tạo hoặc tham gia gọi video với camera/micro.
+- [x] Kiểm thử hồi quy chat, media và gọi video sau sửa lỗi.
+- [x] Thêm trạng thái đã gửi, đã nhận và đã xem cho tin nhắn.
+- [x] Hoàn thiện chia sẻ màn hình mobile theo yêu cầu native của LiveKit/iOS/Android.
+- [x] Làm mới giao diện sáng và bố cục danh sách hội thoại theo phong cách Zalo.
+- [x] Cải thiện vùng an toàn để tab, composer và thao tác không bị che bởi điều hướng hệ thống.
+- [x] Cải thiện composer để xem rõ nội dung đang nhập và xác nhận trước khi gửi.
+- [x] Khôi phục mở hội thoại và gửi text/media trực tiếp theo luồng chat kiểu Zalo.
+- [x] Bổ sung bảng sticker, bộ sticker có sẵn và gửi sticker trong chat.
+- [x] Bổ sung gọi thoại và gọi video trực tiếp từ chat 1:1/nhóm.
+- [x] Đồng bộ trạng thái kết thúc/hủy cuộc gọi để không còn hiển thị phiên đã kết thúc.
+- [x] Hoàn thiện tạo nhóm, quản lý thành viên và gọi ngay trong nhóm.
+- [x] Chỉ hiển thị tab Quản trị cho admin và thêm thao tác quản trị dành riêng cho admin.
+- [x] Sửa luồng chọn, xem trước, cắt và xác nhận ảnh đại diện trước khi tải lên.
+- [x] Kiểm thử hồi quy toàn bộ chat, media, nhóm, gọi và quyền admin sau nâng cấp.
+- [x] Xác nhận phương án lưu trữ tối thiểu 200 GB và quyền FIFO xóa vĩnh viễn khi vượt 90%.
+- [ ] Cấu hình thông tin truy cập provider S3-compatible/Supabase Storage và secret gọi cron ngoài.
+- [ ] Thêm ledger dung lượng, lịch sử FIFO và lịch sử chạy bot vào cơ sở dữ liệu.
+- [ ] Xây dựng dịch vụ accounting quota 200 GB, ngưỡng 90% và FIFO về 80%.
+- [ ] Thêm scheduler 2:00 sáng theo Asia/Ho_Chi_Minh và dọn tệp tạm quá 7 ngày.
+- [ ] Thêm API trạng thái storage, áp dụng giới hạn video 1 GB và ảnh 10 MB trước upload.
+- [ ] Cập nhật dashboard admin với quota, cảnh báo 90%, lịch sử bot và FIFO.
+- [ ] Kiểm thử upload, FIFO, API, quyền admin và không hồi quy chat/media/call.
+- [x] Bổ sung nút Chia sẻ màn hình cho cuộc gọi 1:1 và nhóm trên giao diện web LiveKit.
+- [x] Publish/dừng publish screen track, hiển thị tự động từ xa và phóng to track chia sẻ.
+- [x] Kiểm thử hồi quy mic, camera, rời/kết thúc cuộc gọi và chia sẻ màn hình web.
+- [x] Bổ sung nút Picture-in-Picture cho màn hình đang được chia sẻ trong cuộc gọi web.
+- [x] Kiểm thử PiP, thoát PiP và hồi quy camera/cuộc gọi hiện có.
+- [x] Hiển thị thông báo nổi khi thành viên bắt đầu hoặc dừng chia sẻ màn hình.
+- [x] Làm nổi camera người đang phát biểu khi có screen share/PiP và kiểm thử hồi quy cuộc gọi.
+- [x] Khắc phục lỗi không tải được bản xem trước trên thiết bị mobile.
+- [x] Sửa lỗi đăng ký/đăng nhập bị treo và đảm bảo chỉ mở chức năng ứng dụng sau khi xác thực thành công.
+- [x] Bổ sung đặt, đổi, gỡ khóa ứng dụng và màn hình nhập khóa sau lần mở app mới.
+- [x] Bảo đảm thu nhỏ/chạy nền/chat/gọi/chia sẻ màn hình không kích hoạt khóa trong phiên đang mở.
+- [x] Kiểm thử xác thực và khóa ứng dụng trên native/web mà không hồi quy các luồng chat/call.
+- [x] Thêm Quên mã PIN với xác minh tên tài khoản và mật khẩu trước khi đặt lại PIN.
+- [x] Kiểm thử đặt lại PIN và không hồi quy khóa ứng dụng.
+- [x] Bỏ dòng thông tin bản nháp khỏi giao diện hội thoại.
+- [x] Sửa upload ảnh/video theo hàng đợi, hiển thị tiến độ từng mục, hủy mục đang gửi và tiếp tục mục kế tiếp.
+- [x] Sửa preview/upload avatar và luồng camera chụp/quay để gửi trực tiếp.
+- [x] Thêm admin xóa tài khoản có xác nhận và chặn tạm thời tài khoản theo số ngày.
+- [x] Áp dụng chặn tạm thời tại backend, chặn toàn bộ chức năng người dùng trong thời hạn.
+- [x] Kiểm thử media, camera, avatar, moderation admin và không hồi quy chat/call.
+- [x] Lưu và khôi phục hàng đợi upload theo phương án A; tiếp tục mục chưa hủy khi ứng dụng hoạt động lại hoặc được mở lại.
+- [x] Hiển thị cuộc gọi đến, gọi nhỡ và tham gia trực tiếp trong hội thoại 1:1/nhóm.
+- [x] Khôi phục nút xác nhận upload sau khi chọn/cắt ảnh đại diện.
+- [x] Chặn hoàn toàn tab/route Quản trị đối với người dùng không có quyền admin.
+- [x] Kiểm thử lifecycle upload, cuộc gọi trong chat, avatar và quyền điều hướng.
+- [x] Hiển thị đúng tên tài khoản/thành viên trong danh sách và header hội thoại.
+- [x] Ổn định tiến độ upload, không tụt phần trăm khi quay lại app; tải đồng thời, ưu tiên ảnh trước video.
+- [x] Bổ sung quay video từ camera tối đa 5 phút và gửi thẳng vào hàng đợi.
+- [x] Nâng cấp màn hình gọi native toàn màn hình với ô preview kéo được, điều khiển rõ và đổi camera trước/sau.
+- [x] Kiểm thử hồi quy tên, upload, video camera và gọi native.
+- [x] Thêm trạng thái cuộc gọi nổi và bong bóng kéo được trong ứng dụng.
+- [x] Thêm nút thu nhỏ/mở lại cuộc gọi để vừa gọi vừa nhắn tin.
+- [x] Kiểm thử hồi quy bong bóng nổi, cuộc gọi và chat.
+- [x] Đánh giá mức độ sẵn sàng vận hành, thời hạn provider, quota lưu trữ và giới hạn gọi của checkpoint hiện tại.
+- [x] Tách luồng gọi video, gọi thoại và chia sẻ màn hình; giữ call trong chat và bổ sung nhận cuộc gọi rõ ràng.
+- [x] Sửa preview self-video góc phải và chuyển camera trước/sau ổn định trong gọi video native.
+- [x] Ẩn camera/chia sẻ trong gọi thoại; ẩn chia sẻ trong gọi video; đưa chia sẻ màn hình thành hành động riêng.
+- [x] Sửa composer chat để chạm ô nhập luôn mở bàn phím và không bị che khi gõ/gửi.
+- [x] Bổ sung kiểm thử hồi quy contract cho mode call và composer keyboard.
+- [x] Hiển thị lời mời gọi toàn màn hình ở cả hai bên, có nghe/tham gia hoặc từ chối mà không cần thoát chat.
+- [ ] Sửa self-preview camera native và chuyển camera trước/sau trên thiết bị thật.
+- [x] Thêm chọn loa trong hoặc loa ngoài cho cuộc gọi thoại/video native.
+- [x] Ngăn hiệu ứng lặp vô hạn khi người chia sẻ xem chính màn hình ứng dụng trong phiên share.
+- [x] Sửa composer để bàn phím không tự ẩn và luôn gửi được tin nhắn trên Android.
+- [x] Bổ sung kiểm thử contract cho lời mời call, route loa, chống lặp share và keyboard.
+- [x] Kiểm kê toàn bộ dependency và luồng LiveKit, P2P/WebRTC, screen share trước khi thay kiến trúc.
+- [x] Xác minh Firebase/Firestore project, security rules và cấu hình native cần thiết cho signaling.
+- [x] Chuyển call 1:1 sang react-native-webrtc P2P khi Firebase signaling và TURN được cấu hình an toàn.
+- [x] Gỡ LiveKit chỉ sau khi P2P call, audio/video/share trên native được kiểm thử hồi quy thành công.
+- [x] Xác thực endpoint Firestore `chat-b105b`, security rules test mode và TURN OpenRelay trước khi dùng cho signaling.
+- [x] Thay dependency/plugin LiveKit bằng `react-native-webrtc` và Firebase Firestore sau khi P2P implementation hoàn chỉnh.
+- [ ] Kiểm thử P2P 1:1 trên hai thiết bị native: nhận/từ chối, audio, video, đổi camera, speaker/earpiece và chia sẻ màn hình.
+- [x] Khôi phục composer Android để nhấn ô nhập không làm bàn phím tự ẩn và luôn gửi được tin nhắn.
+- [x] Thêm `firestore.rules` cho signaling P2P, phân biệt rule thử nghiệm chưa có Auth và rule production có caller/callee.
+- [x] Cập nhật ICE/TURN từ secrets, bổ sung STUN fallback và candidate telemetry không lộ credentials.
+- [x] Kiểm thử hồi quy và hướng dẫn test P2P hai máy qua 4G/Wi-Fi, không cam kết SLA trước kiểm thử thật.
+- [x] Chuyển Rules signaling đang dùng về test mode tạm thời để loại trừ permission-denied P2P.
+- [x] Chỉ giữ OpenRelay TURN/STUN đã chọn, loại bỏ fallback Metered hết hạn khỏi PeerConnection.
+- [x] Xác minh remote stream, replaceTrack khi share/dừng share và preview local không lặp.
+- [x] Chạy regression và chuẩn bị build native mới để test P2P hai máy thật.
+- [x] Tách InputBar memo, giữ focus keyboard và kiểm thử chạm input lặp lại trong chat 1:1.
+- [x] Ghi/hiển thị callerName và callerAvatar trong p2p_calls, popup incoming call và bubble lời mời.
+- [x] Sửa self-preview native bằng localStream/RTCView kéo được, mirror và cover.
+- [x] Bổ sung P2P renegotiation khi bắt đầu/dừng chia sẻ qua replaceTrack, giữ audio sender và remote stream.
+- [x] Giữ Rules test mode/OpenRelay/Anonymous Auth để loại trừ permission-denied và ICE fallback sai.
+- [x] Ẩn tạo nhóm, quản lý thành viên và call/share nhóm; chỉ hiển thị luồng chat/call/share 1:1.
+- [x] Thêm regression contracts, typecheck và chuẩn bị xác nhận P2P trên hai thiết bị thật.
+- [x] Hiển thị chỉ báo mạnh/yếu mạng trong giao diện gọi P2P dựa trên trạng thái ICE và telemetry kết nối.
+- [x] Khắc phục nút Đăng nhập/Tạo tài khoản bị treo trên APK, xác minh backend, Firebase test mode và biến môi trường media/TURN.
+- [x] Khắc phục composer chat bị mất focus khiến bàn phím tự ẩn trên native.
+- [x] Khôi phục track camera và remote video sau khi dừng chia sẻ màn hình P2P.
+- [x] Hoàn thiện phát toàn bộ nội dung màn hình thiết bị chia sẻ tới người xem P2P, gồm xử lý track kết thúc và renegotiation.
+- [x] Khắc phục ô preview video nhỏ để luôn hiển thị local camera stream của thiết bị đang gọi.
+- [x] Nâng cấp PiP cửa sổ nổi trong ứng dụng để tiếp tục gọi khi người dùng quay lại chat.
+- [x] Khắc phục người xem screen share P2P nhận màn hình đen thay vì nội dung màn hình thật của thiết bị phát.
+- [x] Duy trì âm thanh hai chiều và cải thiện phản hồi start/stop khi chia sẻ màn hình P2P.
+- [x] Khắc phục nhập/gửi tin nhắn và giữ bàn phím composer ổn định trên native.
+- [x] Thêm thông báo local tin nhắn chưa đọc và lời mời gọi hiển thị đúng tên tài khoản, có deep-link vào chat/cuộc gọi khi app mở/chạy nền.
+- [x] Không triển khai push token/backend khi ứng dụng đã bị đóng theo phạm vi người dùng đã chốt.
+- [x] Tạo gói bàn giao source ChatPHT có chỉ mục/ghi chú riêng theo từng nhóm tính năng, không thay đổi ứng dụng đang chạy.
+- [x] Trích xuất và đóng gói source/cấu hình không bí mật của chia sẻ màn hình từ phiên bản 1.0.9.
+- [x] Khôi phục và ổn định screen share P2P: track màn hình thật, renegotiation và render phía người xem.

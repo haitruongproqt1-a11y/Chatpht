@@ -1,0 +1,1 @@
+ALTER TABLE `call_sessions` ADD `mode` enum('voice','video') DEFAULT 'video' NOT NULL;

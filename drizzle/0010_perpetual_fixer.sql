@@ -1,0 +1,1 @@
+ALTER TABLE `call_sessions` MODIFY COLUMN `mode` enum('voice','video','share') NOT NULL DEFAULT 'video';
