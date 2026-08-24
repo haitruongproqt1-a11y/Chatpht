@@ -10,8 +10,8 @@ permissions:
   contents: write
 
 jobs:
-  build-android-debug:
-    name: Build debug APK and publish tagged Release
+  build-android-test:
+    name: Build standalone test APK and publish tagged Release
     runs-on: ubuntu-latest
     env:
       CI: "true"
@@ -55,21 +55,23 @@ jobs:
       - name: Generate Android native project locally
         run: npx expo prebuild --clean --non-interactive
 
-      - name: Build debug APK with Gradle
+      - name: Build standalone test APK with Gradle
         working-directory: android
-        run: ./gradlew app:assembleDebug
+        # release bundles JavaScript into the APK; Expo's debug variant expects Metro.
+        # android/app/build.gradle signs this test release with the generated debug keystore.
+        run: ./gradlew app:assembleRelease --no-daemon
 
-      - name: Collect debug APK
+      - name: Collect standalone test APK
         run: |
-          APK_PATH="$(find android/app/build/outputs/apk/debug -type f -name '*debug*.apk' | head -n 1)"
+          APK_PATH="$(find android/app/build/outputs/apk/release -type f -name '*release*.apk' | head -n 1)"
           test -n "$APK_PATH"
-          cp "$APK_PATH" "ChatPHT-${GITHUB_REF_NAME}-debug.apk"
+          cp "$APK_PATH" "ChatPHT-${GITHUB_REF_NAME}-test.apk"
 
       - name: Upload APK build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ChatPHT-${{ github.ref_name }}-debug-apk
-          path: ChatPHT-${{ github.ref_name }}-debug.apk
+          name: ChatPHT-${{ github.ref_name }}-test-apk
+          path: ChatPHT-${{ github.ref_name }}-test.apk
           if-no-files-found: error
 
       - name: Create GitHub Release and attach APK
@@ -77,4 +79,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: ChatPHT-${{ github.ref_name }}-debug.apk
+          files: ChatPHT-${{ github.ref_name }}-test.apk

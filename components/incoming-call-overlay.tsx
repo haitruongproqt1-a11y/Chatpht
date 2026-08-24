@@ -10,6 +10,7 @@ import { getSessionToken } from "@/lib/_core/auth";
 import { trpc } from "@/lib/trpc";
 import { useCallOverlay } from "@/components/call-overlay";
 import { initializeLocalNotifications, showCallNotification, showMessageNotification } from "@/lib/local-notifications";
+import { supportsNativeNotifications } from "@/lib/notification-platform";
 
 type CallMode = "voice" | "video" | "share";
 type CallInvite = { id: number; roomId: number; createdBy: number; mode: CallMode; status: "ringing" | "active" | "ended"; callerName?: string; callerAvatar?: string | null };
@@ -25,6 +26,7 @@ export function IncomingCallOverlay({ children }: { children: React.ReactNode })
   useEffect(() => { pathnameRef.current = pathname; }, [pathname]);
 
   useEffect(() => {
+    if (!supportsNativeNotifications(Platform.OS)) return;
     void initializeLocalNotifications();
     const last = Notifications.getLastNotificationResponse();
     const redirect = (response: Notifications.NotificationResponse | null) => {
@@ -52,12 +54,12 @@ export function IncomingCallOverlay({ children }: { children: React.ReactNode })
       socket.on("call:invite", (next: CallInvite) => {
         if (next.createdBy !== user.id && next.status !== "ended") {
           setInvite(next);
-          void showCallNotification({ callerName: next.callerName ?? "Người dùng", roomId: next.roomId, sessionId: next.id, mode: next.mode });
+          if (supportsNativeNotifications(Platform.OS)) void showCallNotification({ callerName: next.callerName ?? "Người dùng", roomId: next.roomId, sessionId: next.id, mode: next.mode });
         }
       });
       socket.on("message:notify", (message: MessageNotification) => {
         if (message.senderId === user.id || pathnameRef.current === `/chat/${message.roomId}`) return;
-        void showMessageNotification({ senderName: message.senderName ?? "Người dùng", roomId: message.roomId, body: message.body, kind: message.kind });
+        if (supportsNativeNotifications(Platform.OS)) void showMessageNotification({ senderName: message.senderName ?? "Người dùng", roomId: message.roomId, body: message.body, kind: message.kind });
       });
       socket.on("call:ended", (payload: { sessionId: number }) => {
         setInvite((current) => current?.id === payload.sessionId ? null : current);

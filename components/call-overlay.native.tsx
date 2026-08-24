@@ -7,6 +7,7 @@ import InCallManager from "react-native-incall-manager";
 import { MediaStream, mediaDevices, RTCPeerConnection, RTCIceCandidate, RTCSessionDescription, RTCView, type MediaStream as MediaStreamType } from "react-native-webrtc";
 import { ensureFirebaseIdentity, firestore, firebaseReady } from "@/lib/firebase";
 import { useAuth } from "@/hooks/use-auth";
+import { p2pFailure, toP2PFailure, type P2PFailure } from "@/lib/p2p-error";
 
 export type CallMode = "voice" | "video" | "share";
 export type ActiveCallConnection = { sessionId: number; roomId: number; mode: CallMode; creatorId: number };
@@ -22,11 +23,12 @@ type CallOverlayState = {
   isSharing: boolean;
   speakerEnabled: boolean;
   networkQuality: NetworkQuality;
-  error: string | null;
+  error: P2PFailure | null;
   activate: (connection: ActiveCallConnection) => void;
   minimize: () => void;
   restore: () => void;
   clear: () => void;
+  retry: () => void;
   toggleMicrophone: () => void;
   toggleCamera: () => Promise<void>;
   switchCamera: () => Promise<void>;
@@ -70,7 +72,7 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
   const [isSharing, setSharing] = useState(false);
   const [speakerEnabled, setSpeakerEnabled] = useState(true);
   const [networkQuality, setNetworkQuality] = useState<NetworkQuality>("connecting");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<P2PFailure | null>(null);
   const peerRef = useRef<RTCPeerConnection | null>(null);
   const localRef = useRef<MediaStreamType | null>(null);
   const remoteRef = useRef<MediaStreamType | null>(null);
@@ -95,6 +97,16 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const clear = useCallback(() => { stopPeer(); setMinimized(false); setConnection(null); setError(null); }, [stopPeer]);
+  const retry = useCallback(() => {
+    if (!connection) return;
+    const next = { ...connection };
+    stopPeer();
+    setError(null);
+    setMinimized(false);
+    setNetworkQuality("connecting");
+    setConnection(null);
+    setTimeout(() => setConnection(next), 0);
+  }, [connection, stopPeer]);
 
   const renegotiateShare = useCallback(async (isSharingNow: boolean) => {
     const peer = peerRef.current;
@@ -131,7 +143,7 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!connection || !user) return;
     const db = firestore;
-    if (!firebaseReady || !db) { setError("Thiếu cấu hình Firebase cho signaling P2P."); return; }
+    if (!firebaseReady || !db) { setError(p2pFailure("P2P_SIGNALING")); return; }
     let cancelled = false;
     const setup = async () => {
       try {
@@ -184,12 +196,13 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
         peer.onconnectionstatechange = () => {
           if (peer.connectionState === "connected") {
             setNetworkQuality("good");
+            setError(null);
             console.info(`[P2P ICE] connected after ${Date.now() - startedAt}ms; inspect candidate types above for relay availability.`);
           }
           if (peer.connectionState === "disconnected") setNetworkQuality("weak");
           if (peer.connectionState === "failed" || peer.connectionState === "closed") {
             setNetworkQuality("offline");
-            if (peer.connectionState === "failed") setError("Kết nối P2P thất bại. Hãy kiểm tra mạng hoặc TURN server.");
+            if (peer.connectionState === "failed") setError(p2pFailure("P2P_ICE"));
           }
         };
         peer.oniceconnectionstatechange = () => {
@@ -197,6 +210,7 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
           if (peer.iceConnectionState === "connected" || peer.iceConnectionState === "completed") setNetworkQuality("good");
           if (peer.iceConnectionState === "disconnected") setNetworkQuality("weak");
           if (peer.iceConnectionState === "failed" || peer.iceConnectionState === "closed") setNetworkQuality("offline");
+          if (peer.iceConnectionState === "failed") setError(p2pFailure("P2P_ICE"));
         };
         let appliedOfferSdp = "";
         let appliedAnswerSdp = "";
@@ -229,7 +243,7 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
           if (!existing.exists()) throw new Error("Lời mời P2P chưa sẵn sàng. Hãy thử nhận lại sau vài giây.");
         }
       } catch (cause) {
-        setError(cause instanceof Error ? cause.message : "Không thể khởi tạo cuộc gọi P2P.");
+        setError(toP2PFailure(cause));
       }
     };
     void setup();
@@ -279,7 +293,7 @@ export function CallOverlayProvider({ children }: { children: ReactNode }) {
     }
   }, [isSharing, renegotiateShare, restoreCameraAfterShare]);
 
-  const value = useMemo<CallOverlayState>(() => ({ connection, minimized, localStream, remoteStream, isMicrophoneEnabled, isCameraEnabled, isSharing, speakerEnabled, networkQuality, error, activate: (next) => { setError(null); setNetworkQuality("connecting"); setConnection(next); setMinimized(false); }, minimize: () => setMinimized(true), restore: () => setMinimized(false), clear, toggleMicrophone, toggleCamera, switchCamera, toggleSpeaker, toggleScreenShare }), [clear, connection, error, isCameraEnabled, isMicrophoneEnabled, isSharing, localStream, minimized, networkQuality, remoteStream, speakerEnabled, switchCamera, toggleCamera, toggleMicrophone, toggleScreenShare, toggleSpeaker]);
+  const value = useMemo<CallOverlayState>(() => ({ connection, minimized, localStream, remoteStream, isMicrophoneEnabled, isCameraEnabled, isSharing, speakerEnabled, networkQuality, error, activate: (next) => { setError(null); setNetworkQuality("connecting"); setConnection(next); setMinimized(false); }, minimize: () => setMinimized(true), restore: () => setMinimized(false), clear, retry, toggleMicrophone, toggleCamera, switchCamera, toggleSpeaker, toggleScreenShare }), [clear, connection, error, isCameraEnabled, isMicrophoneEnabled, isSharing, localStream, minimized, networkQuality, remoteStream, retry, speakerEnabled, switchCamera, toggleCamera, toggleMicrophone, toggleScreenShare, toggleSpeaker]);
   return <CallOverlayContext.Provider value={value}>{children}<CallBubble /></CallOverlayContext.Provider>;
 }
 
