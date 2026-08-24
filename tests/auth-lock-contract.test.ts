@@ -31,6 +31,13 @@ describe("local authentication and app-lock contract", () => {
     expect(appLockSettings).toContain("Gỡ khóa ứng dụng");
   });
 
+  it("does not leave the Android startup gate loading when SecureStore cannot read the PIN", () => {
+    expect(appLockGate).toContain("try {");
+    expect(appLockGate).toContain("Không thể đọc khóa ứng dụng khi khởi động");
+    expect(appLockGate).toContain("finally {");
+    expect(appLockGate).toContain("if (active) setChecking(false);");
+  });
+
   it("requires the account password before resetting a forgotten app PIN", () => {
     expect(appLockGate).toContain("Quên mã PIN?");
     expect(appLockGate).toContain("trpc.auth.login.useMutation");

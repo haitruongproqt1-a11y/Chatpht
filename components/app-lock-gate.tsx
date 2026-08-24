@@ -40,16 +40,23 @@ export function AppLockGate({ children }: { children: ReactNode }) {
     if (loading) return;
     let active = true;
     const prepare = async () => {
-      if (initialSessionRef.current) {
-        initialSessionRef.current = false;
-        if (isAuthenticated) {
-          const pin = await getAppLockPin();
-          if (!active) return;
-          setExpectedPin(pin);
+      try {
+        if (initialSessionRef.current) {
+          initialSessionRef.current = false;
+          if (isAuthenticated) {
+            const pin = await getAppLockPin();
+            if (!active) return;
+            setExpectedPin(pin);
+          }
         }
+        if (!isAuthenticated) setExpectedPin(null);
+      } catch (cause) {
+        // Không giữ app ở splash/loading nếu Android SecureStore tạm thời không đọc được.
+        console.warn("[AppLock] Không thể đọc khóa ứng dụng khi khởi động.", cause);
+        if (active) setExpectedPin(null);
+      } finally {
+        if (active) setChecking(false);
       }
-      if (!isAuthenticated) setExpectedPin(null);
-      if (active) setChecking(false);
     };
     void prepare();
     return () => { active = false; };
